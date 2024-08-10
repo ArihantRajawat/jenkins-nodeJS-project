@@ -1,0 +1,132 @@
+<section>
+    <div class="query-box">
+        <div class="container">
+            <div class="head">
+                <h2>Do You Have Any Query</h2>
+                <p>Please fill out the form & our representative will contact you within 24hrs.</p>
+            </div>
+            <div class="query-form">
+                <form id="query-form" action="" method="post">
+                    <div>
+                        <div class="row">
+                            <div class="col-md-7 box-1" style="padding-top: 30px;">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Patient Full Name<span class="field-required">*</span></label>
+                                        <div class="field">
+                                            <div class="field-icon"><i class="fa-regular fa-user"></i></div>
+                                            <input type="text" class="form-control form-control-sm" id="patient-name"
+                                                name="name" placeholder="Name">
+                                            <span id="patient-nameError" class="error"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Phone<span class="field-required">*</span></label>
+                                        <div class="field">
+                                            <div class="field-icon"><i class="fa-solid fa-phone"></i></div>
+                                            <input type="text" class="form-control form-control-sm" id="patient-phone"
+                                                name="phone" placeholder="Phone" maxlength="10">
+                                            <span id="patient-phoneError" class="error"></span>
+                                        </div>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $('#patient-phone').on('input', function () {
+                                                    let phoneNumber = $(this).val();
+                                                    let sanitizedInput = phoneNumber.replace(/\D/g, '');
+                                                    $(this).val(sanitizedInput);
+                                                })
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label>Email<span class="field-required">*</span></label>
+                                        <div class="field">
+                                            <div class="field-icon"><i class="fa-regular fa-envelope"></i></div>
+                                            <input type="text" class="form-control form-control-sm" id="patient-email"
+                                                name="email" placeholder="Email">
+                                            <span id="patient-emailError" class="error"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label>Your Query<span class="field-required">*</span></label>
+                                        <div class="field">
+                                            <div class="field-icon"><i class="fa-regular fa-message"></i></div>
+                                            <textarea rows="4" id="patient-query" name="query"
+                                                class="form-control form-control-sm"
+                                                placeholder="Your Query"></textarea>
+                                            <span id="patient-queryError" class="error"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <button class="btn query-btn">
+                                            <i class="fa-solid fa-phone-volume"></i>Get a
+                                            Call Back
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5 box-2">
+                                <img src="/assets/img/form-right.png" alt="Get a call Back">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $(document).on('submit', '#query-form', function (event) {
+                event.preventDefault();
+                $('input, textarea, select').focus(function () {
+                    $(this).removeClass('border-danger');
+                    var fieldName = $(this).attr('name');
+                    $('#patient-' + fieldName + 'Error').text('');
+                    $('#patient-' + fieldName + 'Error').css({ 'background-image': 'none' });
+                });
+
+                var formData = {
+                    name: $('#patient-name').val(),
+                    phone: $('#patient-phone').val(),
+                    email: $('#patient-email').val(),
+                    query: $('#patient-query').val(),
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: '/patientQuery',
+                    data: JSON.stringify(formData),
+                    contentType: 'application/json',
+                    success: function (response) {
+                        showToast(response.message, 'bg-success');
+                        $('#query-form')[0].reset();
+                    },
+                    error: function (xhr, status, error) {
+                        if (xhr.status === 400) {
+                            var errorMessage = xhr.responseJSON;
+                            var fieldErrors = errorMessage.errors;
+                            if (fieldErrors !== null) {
+                                $.each(fieldErrors, function (fieldName, errorMessage) {
+                                    $('#patient-' + fieldName + 'Error').css({ 'background-image': 'url("/assets/img/error-info.svg")' });
+                                    $('#patient-' + fieldName + 'Error').text(errorMessage);
+                                    $('#patient-' + fieldName).addClass('border-danger');
+                                });
+                            }
+                            showToast(errorMessage.message, 'bg-danger');
+                        } else {
+                            const data = JSON.parse(xhr.responseText);
+                            showToast(data.message, 'bg-danger');
+                        }
+                    }
+                })
+            })
+        });
+    </script>
+
+
+</section>

@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{admin/base :: layout(~{::title}, ~{:: content})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor</title>
+</head>
+
+<body>
+    <div th:fragment="content">
+        <div class="container">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Doctor</li>
+                </ol>
+            </nav>
+            <div>
+
+                <div class="page-title">
+                    <div>
+                        <h3>Doctor</h3>
+                    </div>
+                    <div>
+                        <button id="refresh-btn" type="button" class="btn">
+                            <i class="fa-solid fa-rotate-right"></i>
+                        </button>
+                        <a href="/admin/doctor/add">
+                            <button type="button" class="btn">
+                                +New Doctor
+                            </button>
+                        </a>
+                    </div>
+                </div>
+
+
+                <div class="table-content">
+                    <div class="table-herder">
+                        <div class="select-entry">
+                            <label>Show entries per page: </label>
+                            <div class="dropdown">
+                                <button class="dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="true">
+                                    <span id="selected-entries">25</span>
+                                    <span class="ss-arrow">
+                                        <span class="ss-arrow-down"></span>
+                                    </span>
+                                </button>
+                                <ul class="dropdown-menu" id="entries-select">
+                                    <div>
+                                        <li><a class="dropdown-item selected-item" href="#" data-value="10">10
+                                                entries</a></li>
+                                        <li><a class="dropdown-item" href="#" data-value="25">25 entries</a></li>
+                                        <li><a class="dropdown-item" href="#" data-value="50">50 entries</a></li>
+                                        <li><a class="dropdown-item" href="#" data-value="100">100 entries</a></li>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="input-group input-group-sm">
+                                <div style="position: absolute;z-index: 9;padding: 4px 8px;">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </div>
+                                <input type="text" class="form-control" id="search-specialist" placeholder="Search..."
+                                    style="padding: 4px 30px;">
+                                <div class="close"
+                                    style="position: absolute;right: 0;z-index: 9;padding: 4px 8px; display: none;">
+                                    <button class="border-0 bg-white"> <i class="fa-solid fa-xmark"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <table id="doctor-table" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th class="sorting" scope="col">#</th>
+                                <th class="sorting" scope="col">Photo</th>
+                                <th class="sorting" scope="col">Name</th>
+                                <th class="sorting" scope="col">Specialization</th>
+                                <th class="sorting" scope="col">Mobile</th>
+                                <th class="sorting" scope="col">Experience</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <style>
+                            td {
+                                align-content: center;
+                            }
+
+                            #doctor-p {
+                                border-radius: 5px;
+                                background-color: #fff;
+                            }
+                        </style>
+                        <tbody>
+                            <!-- Data dynamically load -->
+                        </tbody>
+                    </table>
+
+                    <div class="table-footer">
+                        <div>
+                            <p>Showing 1 to 10 of 333 entries</p>
+                        </div>
+                        <div>
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination pagination-sm justify-content-end">
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal  for detail doctor account -->
+                <div class="modal fade modal-lg doctor-detail-modal" id="doctor-detail-modal" tabindex="-1"
+                    aria-labelledby="doctor-detail-modalLabel" aria-hidden="true">
+                    <div class="modal-dialog" style="width: auto;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="doctor-detail-modalLabel">Doctor Information
+                                </h1>
+                                <button type="button" class="btn-close btn-modal" data-bs-dismiss="modal"
+                                    style="margin-right: 5px;" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="doctor-detail-box" style="border: none;">
+                                    <div class="body">
+                                        <h4>Personal Information</h4>
+                                        <section class="section-1">
+                                            <div class="left-box">
+                                                <div class="key-name">
+                                                    <p>First Name:</p>
+                                                    <p>Last Name:</p>
+                                                    <p>Email:</p>
+                                                    <p>Phone:</p>
+                                                </div>
+                                                <div class="key-value">
+                                                    <p id="firstname">Dinesh</p>
+                                                    <p id="lastname">Kumawat</p>
+                                                    <p id="email">dinesh7627000@gmail.com</p>
+                                                    <p id="phone">917627000907</p>
+                                                </div>
+                                            </div>
+                                            <div class="right-box">
+                                                <div class="img-box">
+                                                    <img id="image" width="200px" src="#">
+                                                </div>
+                                            </div>
+                                        </section>
+                                        <div>
+                                            <h4>Professional Information</h4>
+                                            <section class="section-2">
+                                                <div class="key-name">
+                                                    <p>Specialization:</p>
+                                                    <p>Licence No:</p>
+                                                    <p>Experience:</p>
+                                                    <p>Consultation Fee:</p>
+                                                    <p>Qualification:</p>
+                                                    <p>About:</p>
+                                                </div>
+                                                <div class="key-value">
+                                                    <p id="specialization">Cardiologist</p>
+                                                    <p id="licenceNo">GSHBS346KD</p>
+                                                    <p id="experience">4 Year</p>
+                                                    <p id="consultationFee">500</p>
+                                                    <p id="qualification">MBBS</p>
+                                                    <p id="about">Lorem ipsum dolor sit amet consectetur
+                                                        adipisicing elit.
+                                                        Cupiditate necessitatibus
+                                                        nam
+                                                        laborum sed voluptatum eius labore, temporibus atque
+                                                        aspernatur facere inventore
+                                                        pariatur, sapiente culpa officiis asperiores repellat
+                                                        laboriosam id doloribus!</p>
+                                                </div>
+                                            </section>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+                                <button id="update-btn-2" data-bs-target="#doctor-update-modalToggle2"
+                                    data-bs-toggle="modal" type="button" class="btn btn-primary">Update</button>
+                                <button id="delete-btn-2" data-bs-target="#doctor-delete-modalToggle2"
+                                    data-bs-toggle="modal" type="button" class="btn"
+                                    style="background-color: red;">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal for delete account -->
+            <div class="modal fade" id="doctor-delete-modalToggle2" aria-hidden="true"
+                aria-labelledby="doctor-delete-modal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-light-subtle">
+                            <h1 class="modal-title fs-5" id="doctor-delete-modal">Doctor Account Delete</h1>
+                            <button type="button" class="btn-close btn-modal" data-bs-dismiss="modal"
+                                style="margin-right: 5px;" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="text-center">
+                                <div>
+                                    <i class="fa-solid fa-triangle-exclamation text-warning"
+                                        style="font-size: 100px;"></i>
+                                    <h4>Permanently delete this account information</h4>
+                                </div>
+
+
+                            </div>
+                            <div class="text-center">
+                                Are you sure you want to proceed ?
+                            </div>
+                            <div>
+                                <button class="btn" id="delete-now"
+                                    style="background-color: red; width: 100%; margin-top: 15px;"><span
+                                        class="btn-loader" style="display: none;"><i
+                                            class="fa fa-spinner fa-pulse"></i></span>&nbsp;Yes!
+                                    Delete Now</button>
+                                <button class="btn btn-primary" data-bs-target="#doctor-detail-modal"
+                                    data-bs-toggle="modal" style="width: 100%; margin-top: 15px;">Back</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal for update doctor account -->
+            <div class="modal fade modal-lg" id="doctor-update-modalToggle2" aria-hidden="true"
+                aria-labelledby="doctor-update-modal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered" style="width: auto;">
+                    <div class="modal-content">
+                        <div class="modal-header bg-light-subtle">
+                            <h1 class="modal-title fs-5" id="update-delete-modal">Doctor Account Update</h1>
+                            <button type="button" class="btn-close btn-modal" data-bs-dismiss="modal"
+                                style="margin-right: 5px;" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card" style="border-radius: 0px;">
+                                <div class="card-body">
+                                    <form id="doctor-update-form" action="" enctype="multipart/form-data">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Firstname<span class="field-required">*</span></label>
+                                                <input type="text" name="firstname" id="update-firstname"
+                                                    class="form-control form-control-sm"
+                                                    placeholder="Enter your firstname">
+                                                <span id="doctor-firstnameError" class="error"></span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label>Lastname<span class="field-required">*</span></label>
+                                                <input type="text" name="lastname" id="update-lastname"
+                                                    class="form-control form-control-sm"
+                                                    placeholder="Enter your lastname">
+                                                <span id="doctor-lastnameError" class="error"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Phone Number<span class="field-required">*</span></label>
+                                                <div class="field">
+                                                    <div class="input-group input-group-sm">
+                                                        <span class="input-group-text" id="inputGroup-sizing-sm" style="margin-bottom: 1px;
+                                                  z-index: 9;
+                                                  border: none;
+                                                  border-right: 1px solid #dddddd;
+                                                  font-weight: 500;
+                                                  margin-top: 1px;
+                                                  position: relative;">+91</span>
+                                                        <input name="phone" id="update-phone" type="text" maxlength="10"
+                                                            class="form-control" aria-label="Sizing example input"
+                                                            aria-describedby="inputGroup-sizing-sm"
+                                                            placeholder="Enter your 10-Digit number" style="position: absolute;
+                                                      width: 100%;
+                                                      padding-left: 50px; border-radius: 4px;">
+                                                    </div>
+                                                    <span id="doctor-phoneError" class="error"></span>
+                                                </div>
+                                                <script>
+                                                    $(document).ready(function () {
+                                                        $('#doctor-phone').on('input', function () {
+                                                            let phoneNumber = $(this).val();
+                                                            let sanitizedInput = phoneNumber.replace(/\D/g, '');
+                                                            $(this).val(sanitizedInput);
+                                                        })
+                                                    });
+                                                </script>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label>Email<span class="field-required">*</span></label>
+                                                <input type="email" name="email" id="update-email"
+                                                    class="form-control form-control-sm" placeholder="Enter your email">
+                                                <span id="doctor-emailError" class="error"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="col-md-12">
+                                                    <label>Specialization<span class="field-required">*</span></label>
+                                                    <select class="form-select form-select-sm" name="specializationId"
+                                                        id="update-specializationId"
+                                                        aria-label=".form-select-sm example" style="font-weight: 500;">
+                                                        <option id="selectedSpec" value="" selected>Select a
+                                                            Specialization
+                                                        </option>
+                                                    </select>
+                                                    <span id="doctor-specializationIdError" class="error"></span>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label>Licence No.<span class="field-required">*</span></label>
+                                                    <input type="text" name="licenceNo" id="update-licenceNo"
+                                                        class="form-control form-control-sm"
+                                                        placeholder="Enter licence number">
+                                                    <span id="doctor-licenceNoError" class="error"></span>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <label>Year of Experience<span
+                                                                    class="field-required">*</span></label>
+                                                            <input type="text" name="experience" id="update-experience"
+                                                                class="form-control form-control-sm"
+                                                                placeholder="Total experience year">
+                                                            <span id="doctor-experienceError" class="error"></span>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label>Consultation Fee<span
+                                                                    class="field-required">*</span></label>
+                                                            <input type="text" name="consultationFee"
+                                                                id="update-consultationFee"
+                                                                class="form-control form-control-sm"
+                                                                placeholder="Consultation fee">
+                                                            <span id="doctor-consultationFeeError" class="error"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label>Qualification<span class="field-required">*</span></label>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        name="qualification" id="update-qualification"
+                                                        placeholder="Enter qualification">
+                                                    <span id="doctor-qualificationError" class="error"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="col-md-12">
+                                                    <label>Profile Image<span class="field-required">*</span></label>
+                                                    <input id="update-image" type="file" name="image" accept="image/*"
+                                                        class="form-control form-control-sm">
+                                                    <span id="doctor-imageError" class="error"></span>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="card" style="border-radius: 4px;">
+                                                        <div class="card-body" style="padding: 8px;">
+                                                            <div class="d-flex justify-content-center"
+                                                                style="border: 1px dashed #dddddd; border-radius: 4px;height: 181px;max-height: 181px; align-items: center;">
+
+                                                                <img id="imgPreview" width="181px" height="181px"
+                                                                    style="max-width: 181px;max-height: 181px;padding: 2px;object-fit: contain;"
+                                                                    src="#" alt="pic">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label>About<span class="field-required">*</span></label>
+                                                <textarea class="form-control form-control-sm" id="update-about"
+                                                    name="about" rows="5" placeholder="Type about yourself"
+                                                    style="font-weight: 500;"></textarea>
+                                                <span id="doctor-aboutError" class="error"></span>
+                                            </div>
+                                        </div>
+                                        <button id="update-now" type="submit" class="btn mt-3"><span class="btn-loader"
+                                                style="display: none;"><i
+                                                    class="fa fa-spinner fa-pulse"></i></span>&nbsp;Update</button>
+                                        <button type="reset" class="btn mt-3">Reset</button>
+                                        <button data-bs-target="#doctor-detail-modal" data-bs-toggle="modal"
+                                            type="reset" class="btn mt-3">Back</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+            <script>
+                function populatedDoctorList(data) {
+                    var tableBody = $('#doctor-table tbody');
+                    tableBody.empty();
+                    $.each(data, function (index, doctor) {
+                        var rows = '<tr>'
+                            + '<td>' + (index + 1) + '</td>'
+                            + '<td scope="col">'
+                            + '<img id="doctor-p" width="50px" src="' + doctor.imageUrl + '">'
+                            + '</td>'
+                            + '<td scope="col">' + doctor.firstname + '&nbsp;' + doctor.lastname + '</td>'
+                            + '<td scope="col">' + doctor.specialization.name + '</td>'
+                            + '<td scope="col">' + doctor.phone + '</td>'
+                            + '<td scope="col">' + doctor.experience + '+&nbsp;Years' + '</td>'
+                            + '<td scope="col">'
+                            + '<button id="view-btn" type="button"  data-id="' + doctor.id + '" class="table-action-btn update"'
+                            + 'data-bs-toggle="modal" data-bs-target="#doctor-detail-modal">'
+                            + '<i class="fa-solid fa-expand text-primary"></i></button>'
+                            + '<button id="update-btn" class="table-action-btn update" data-id="' + doctor.id + '" data-bs-target="#doctor-update-modalToggle2" data-bs-toggle="modal">'
+                            + '<i class="fa-solid fa-pen-to-square text-primary"></i></button>'
+                            + '</td>'
+                            + '</tr>'
+
+                        tableBody.append(rows);
+
+                    });
+                }
+
+                $(document).ready(function () {
+                    var page = 0;
+                    var size = 20;
+                    function fetchDoctorList(page, size) {
+                        $('#content').hide();
+                        $.ajax({
+                            async: true,
+                            crossDomain: true,
+                            type: 'GET',
+                            url: '/admin/doctor/get/paginated?page=' + page + '&size=' + size,
+                            success: function (response) {
+                                populatedDoctorList(response.data.content);
+                            },
+                            complete: function () {
+                                $('#content').show();
+                                $('#loader').hide();
+                            }
+                        });
+
+                    }
+                    fetchDoctorList(page, size);
+
+
+                    function fetchDoctorDetail(id) {
+                        $.ajax({
+                            async: true,
+                            type: 'GET',
+                            url: '/admin/doctor/get/id=' + id,
+                            contentType: 'application/json',
+                            success: function (response) {
+                                var doctor = response.data;
+                                $('#firstname').text(doctor.firstname);
+                                $('#lastname').text(doctor.lastname);
+                                $('#email').text(doctor.email);
+                                $('#phone').text(doctor.phone);
+                                $('#specialization').text(doctor.specialization.name);
+                                $('#licenceNo').text(doctor.licenceNo.toUpperCase());
+                                $('#experience').text(doctor.experience + '+ Years');
+                                $('#consultationFee').text(doctor.consultationFee);
+                                $('#qualification').text(doctor.qualification);
+                                $('#about').text(doctor.about);
+                                var image = doctor.imageUrl;
+                                if (image === null) {
+                                    $('#image').attr('src', '/assets/img/doctor-default.jpg');
+                                } else {
+                                    $('#image').attr('src', image);
+                                }
+
+                                $('#update-btn-2').attr('data-id', doctor.id);
+                                $('#delete-btn-2').attr('data-id', doctor.id);
+                                $('#delete-now').attr('data-id', doctor.id);
+                            },
+                            error(xhr, status, error) {
+                                const data = JSON.parse(xhr.responseText);
+                                showToast(data.message, 'bg-danger');
+                            }
+                        });
+                    }
+                    $(document).on('click', '#view-btn', function () {
+                        var doctorId = $(this).data('id');
+                        fetchDoctorDetail(doctorId);
+                    });
+
+
+                    function fetchUpdateDetailForm(id) {
+                        $.ajax({
+                            async: true,
+                            type: 'GET',
+                            url: '/admin/doctor/get/id=' + id,
+                            contentType: 'application/json',
+                            success: function (response) {
+                                var doctor = response.data;
+                                $('#update-firstname').val(doctor.firstname);
+                                $('#update-lastname').val(doctor.lastname);
+                                $('#update-email').val(doctor.email);
+                                $('#update-phone').val(doctor.phone);
+                                $('#update-specializationId').val(doctor.specializationId);
+                                $('#update-licenceNo').val(doctor.licenceNo);
+                                $('#update-experience').val(doctor.experience);
+                                $('#update-consultationFee').val(doctor.consultationFee);
+                                $('#update-qualification').val(doctor.qualification);
+                                $('#update-about').val(doctor.about);
+                                var image = doctor.imageUrl;
+                                if (image === null) {
+                                    $('#imgPreview').attr('src', '/assets/doctor-default.jpg');
+                                } else {
+                                    $('#imgPreview').attr('src', image);
+                                }
+                                $('#update-now').attr('data-id', doctor.id);
+                            },
+                            error(xhr, status, error) {
+                                const data = JSON.parse(xhr.responseText);
+                                showToast(data.message, 'bg-danger');
+                            }
+                        });
+                    }
+                    $(document).on('click', '#update-btn', function () {
+                        var doctorId = $(this).data('id');
+                        fetchUpdateDetailForm(doctorId);
+                    });
+
+                    $(document).on('click', '#update-btn-2', function () {
+                        var doctorId = $(this).data('id');
+                        fetchUpdateDetailForm(doctorId);
+                    });
+
+                    $(document).on('submit', '#doctor-update-form', function (event) {
+                        event.preventDefault();
+                        var doctorId = $('#update-now').data('id');
+                        $('.btn-loader').show();
+                        var formData = new FormData(this);
+                        $.ajax({
+                            async: true,
+                            type: 'PUT',
+                            url: '/admin/doctor/update/id=' + doctorId,
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            success: function (response) {
+                                showToast(response.message, 'bg-success');
+                                $('#doctor-update-modalToggle2').modal('hide');
+                            },
+                            error: function (xhr, status, error) {
+                                if (xhr.status === 400) {
+                                    var errorMessage = xhr.responseJSON;
+                                    var fieldErrors = errorMessage.errors;
+                                    if (fieldErrors !== null) {
+                                        $.each(fieldErrors, function (fieldName, errorMessage) {
+                                            $('#doctor-' + fieldName + 'Error').css({ 'background-image': 'url("/assets/img/error-info.svg")' });
+                                            $('#doctor-' + fieldName + 'Error').text(errorMessage);
+                                            $('#doctor-' + fieldName).addClass('border-danger')
+                                        });
+                                    }
+                                    showToast(errorMessage.message, 'bg-danger');
+                                } else {
+                                    const data = JSON.parse(xhr.responseText);
+                                    showToast(data.message, 'bg-danger');
+                                }
+                            },
+                            complete: function () {
+                                $('.btn-loader').hide();
+                                fetchDoctorList(page, size);
+                            }
+                        })
+                    });
+
+                    $(document).on('click', '#delete-now', function () {
+                        var doctorId = $(this).data('id');
+                        $('.btn-loader').show();
+                        $.ajax({
+                            async: true,
+                            type: 'DELETE',
+                            url: '/admin/doctor/delete/id=' + doctorId,
+                            contentType: 'application/json',
+                            success: function (response) {
+                                showToast(response.message, 'bg-success');
+                                $('#doctor-delete-modalToggle2').modal('hide');
+                                fetchDoctorList(page, size);
+                            },
+                            error: function (xhr, status, error) {
+                                const data = JSON.parse(xhr.responseText);
+                                showToast(data.message, 'bg-danger');
+                            },
+                            complete: function () {
+                                $('.btn-loader').hide();
+                            }
+                        })
+                    });
+
+
+                    $.ajax({
+                        type: 'GET',
+                        url: '/admin/specialist/get',
+                        contentType: 'application/json',
+                        success: function (response) {
+                            var specialist = response.data;
+                            $.each(specialist, function (index, item) {
+                                $('#update-specializationId').append('<option value="' + item.id + '">' + item.name + '</option>');
+                            });
+                        }
+                    });
+
+                    $('#update-image').on('change', function (event) {
+                        var input = event.target;
+                        if (input.files && input.files[0]) {
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                $('#imgPreview').attr('src', e.target.result);
+                            }
+                            reader.readAsDataURL(input.files[0]);
+                        }
+                    });
+                });
+            </script>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

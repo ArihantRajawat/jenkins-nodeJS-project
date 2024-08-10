@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{user/base :: layout(~{::title}, ~{:: content})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book an Appointment</title>
+</head>
+
+<body>
+    <div th:fragment="content">
+        <div class="appointment-page">
+            <div class="container p-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="call-query p-4">
+                            <h1>Book an Appointment</h1>
+                            <h6>Have a question ? Call us now</h6>
+                            <a href="tel:0148-2855859 "><i class="fa-solid fa-phone-volume"></i>0148-2855859 </a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <div class="img">
+                            <img width="350px" src="/assets/img/appointment.webp" alt="appointment"
+                                style="margin: auto;">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="col-md-12">
+                <div class="row book-appointment-form">
+                    <div class="form-content pt-3">
+                        <div class="text-center mb-5">
+                            <p class="title">Book an Appointment</p>
+                        </div>
+                        <form action="">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Department<span class="field-required">*</span></label>
+                                    <div class="mb-1">
+                                        <select id="doctor-specializationId" class="form-select form-select-sm"
+                                            aria-label=".form-select-sm example" style="font-weight: 500;">
+                                            <option selected>- Select a Department -</option>
+                                            <option value="1">Neurology</option>
+                                            <option value="2">Urology</option>
+                                            <option value="3">Dental</option>
+                                        </select>
+                                        <span class="error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Doctor<span class="field-required">*</span></label>
+                                    <div class="mb-1">
+                                        <select class="form-select form-select-sm" aria-label=".form-select-sm example"
+                                            style="font-weight: 500;">
+                                            <option selected>- Select a Doctor -</option>
+                                            <option value="1">Dr. Prateek Vyas</option>
+                                            <option value="2">Dr. Pravesh Kumar Sharma</option>
+                                            <option value="3">Dr. Swati Tyagi</option>
+                                        </select>
+                                        <span class="error"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Appointment Date<span class="field-required">*</span></label>
+                                    <div class="mb-1">
+                                        <input type="date" class="form-control form-control-sm" id="date">
+                                        <span class="error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Time Slot<span class="field-required">*</span></label>
+                                    <div class="mb-1">
+                                        <input type="email" class="form-control form-control-sm"
+                                            id="exampleFormControlInput1" placeholder="Enter your email address">
+                                        <span class="error"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <h6 style="font-weight: 500; font-size: 18px;" class="mb-1 mt-3 text-center">Basic
+                                Information
+                            </h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Firstname<span class="field-required">*</span></label>
+                                    <div class="mb-1">
+                                        <input type="text" class="form-control form-control-sm"
+                                            id="firstname-appointment" name="firstname"
+                                            placeholder="Enter your firstname">
+                                        <span class="error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Lastname<span class="field-required">*</span></label>
+                                    <div class="mb-1">
+                                        <input type="text" class="form-control form-control-sm"
+                                            id="lastname-appointment" name="lastname" placeholder="Enter your lastname">
+                                        <span class="error"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="dob">Date of Birth<span class="field-required">*</span></label>
+                                    <div class="mb-1">
+                                        <input type="date" name="dob" class="form-control form-control-sm"
+                                            id="dob-appointment">
+                                        <span class="error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="age">Age<span class="field-required">*</span></label>
+                                    <div class="mb-1">
+                                        <input type="email" class="form-control form-control-sm" id="age-appointment"
+                                            name="age" placeholder="Your current age">
+                                        <span class="error"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="phone">Phone Number<span class="field-required">*</span></label>
+                                    <div class="mb-1">
+                                        <div class="input-group input-group-sm">
+                                            <span class="input-group-text" id="inputGroup-sizing-sm">+91</span>
+                                            <input name="phone" id="phone-appointment" type="text" maxlength="10"
+                                                pattern="[0-9]{10}" class="form-control"
+                                                aria-label="Sizing example input"
+                                                aria-describedby="inputGroup-sizing-sm"
+                                                placeholder="Enter your 10-Digit number">
+                                        </div>
+                                        <span class="error"></span>
+                                    </div>
+                                    <script>
+                                        $(document).ready(function () {
+                                            $('#doctor-phone').on('input', function () {
+                                                let phoneNumber = $(this).val();
+                                                let sanitizedInput = phoneNumber.replace(/\D/g, '');
+                                                $(this).val(sanitizedInput);
+                                            })
+                                        });
+                                    </script>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="email">Email Address<span class="field-required">*</span></label>
+                                    <div class="mb-1">
+                                        <input type="email" class="form-control form-control-sm" id="email-appointment"
+                                            placeholder="Enter your email address">
+                                        <span class="error"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="mb-1">
+                                <label for="notes" class="form-label">Notes</label>
+                                <textarea class="form-control form-control-sm" id="notes-appointment" name="notes"
+                                    rows="3" placeholder="Type your notes" style="font-weight: 500;"></textarea>
+                            </div>
+                            <input class="btn" type="button" value="Submit">
+                            <input class="btn" type="reset" value="Reset">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: '/admin/specialist/get',
+                    contentType: 'application/json',
+                    success: function (response) {
+                        var specialist = response.data;
+                        $.each(specialist, function (index, item) {
+                            $('#doctor-specializationId').append('<option value="' + item.id + '">' + item.name + '</option>');
+                        });
+                    }
+                });
+            })
+        </script>
+
+    </div>
+</body>
+
+</html>

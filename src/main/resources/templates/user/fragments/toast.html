@@ -1,0 +1,25 @@
+<!-- Flexbox container for aligning the toasts -->
+<div aria-live="polite" aria-atomic="true"
+    class="d-flex justify-content-center position-relative align-items-center w-100">
+    <div class="toast-container">
+        <!-- Then put toasts within -->
+        <div id="myToast" class="toast align-items-center" role="alert" aria-live="assertive"
+            aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body text-light">
+
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function showToast(message, color) {
+            var myToast = new bootstrap.Toast($('#myToast')[0]);
+            myToast.show();
+            $('#myToast .toast-body').text(message);
+            $('#myToast').addClass(color);
+        }
+    </script>
+</div>

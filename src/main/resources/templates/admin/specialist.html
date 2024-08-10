@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{admin/base :: layout(~{::title}, ~{:: content})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Specialist</title>
+</head>
+
+<body>
+    <div th:fragment="content">
+        <div id="content" style="display: none;">
+            <div class="container">
+                <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/admin/dashboard">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Specialist</li>
+                    </ol>
+                </nav>
+
+                <div class="page-title">
+                    <div>
+                        <h3>Specialist</h3>
+                    </div>
+                    <div>
+                        <button id="refresh-btn" type="button" class="btn">
+                            <i class="fa-solid fa-rotate-right"></i>
+                        </button>
+                        <!-- Button trigger for specialist modal -->
+                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#specialistModal">
+                            +New Specialist
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-content">
+                    <div class="table-herder">
+                        <div class="select-entry">
+                            <label>Show entries per page: </label>
+                            <div class="dropdown">
+                                <button class="dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="true">
+                                    <span id="selected-entries">25</span>
+                                    <span class="ss-arrow">
+                                        <span class="ss-arrow-down"></span>
+                                    </span>
+                                </button>
+                                <ul class="dropdown-menu" id="entries-select">
+                                    <div>
+                                        <li><a class="dropdown-item selected-item" href="#" data-value="10">10
+                                                entries</a></li>
+                                        <li><a class="dropdown-item" href="#" data-value="25">25 entries</a></li>
+                                        <li><a class="dropdown-item" href="#" data-value="50">50 entries</a></li>
+                                        <li><a class="dropdown-item" href="#" data-value="100">100 entries</a></li>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                        <div>
+                            <div class="input-group input-group-sm table-search">
+                                <div style="position: absolute;z-index: 1;padding: 4px 8px;">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </div>
+                                <input type="text" class="form-control" id="search-specialist" placeholder="Search..."
+                                    style="padding: 4px 30px;z-index: 0;">
+                                <div class="close"
+                                    style="position: absolute;right: 0;z-index: 1;padding: 4px 8px; display: none;">
+                                    <button class="border-0 bg-white"> <i class="fa-solid fa-xmark"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <table id="specialist-table" class="table table-hover table-sm">
+                        <thead>
+                            <tr>
+                                <th class="sorting" scope="col">#</th>
+                                <th class="sorting" scope="col">Specialization Name</th>
+                                <th class="sorting" scope="col">Description</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                    <div class="table-footer">
+                        <div>
+                            <p>Showing 1 to <span id="max">25</span> of <span id="totalElements">352</span> entries</p>
+                        </div>
+                        <div>
+                            <nav aria-label="Page navigation example">
+                                <div id="pagination">
+                                    <ul class="pagination pagination-sm">
+                                        <li class="page-item">
+                                            <a class="page-link" href="#" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                        <li id="pagelink"></li>
+                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link active" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">...</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">246</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">247</a></li>
+                                        <li class="page-item">
+                                            <a id="next" class="page-link" href="" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                            </nav>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <script>
+
+
+                function populateSpecialist(data, numRows) {
+                    var tableBody = $('#specialist-table tbody');
+                    tableBody.empty();
+                    if (data.length === 0) {
+                        tableBody.html('<p class="mt-2">No Results Found</p>');
+                    } else {
+                        for (var index = 0; index < numRows; index++) {
+                            var item = data[index];
+                            if (item !== null && item !== undefined) {
+                                var row = '<tr>'
+                                    + '<td>' + (index + 1) + '</td>'
+                                    + '<td>' + item.name + '</td>'
+                                    + '<td>' + item.description + '</td>'
+                                    + '<td>'
+                                    + '<button id="update-specialist" class="table-action-btn update" data-id="' + item.id + '" data-bs-toggle="modal" data-bs-target="#updateSpecialistModal">'
+                                    + '<i class="fa-solid fa-pen-to-square"></i>'
+                                    + '<button id="delete-specialist" class="table-action-btn delete" data-id="' + item.id + '" data-bs-toggle="modal" data-bs-target="#deleteSpecialistModal">'
+                                    + '<i class="fa-solid fa-trash-can"></i>'
+                                    + '</td>'
+                                    + '</tr>';
+                                tableBody.append(row);
+                            }
+                        }
+                    }
+                }
+
+                function fetchAllSpecialistData(page, size) {
+                    return $.ajax({
+                        async: true,
+                        type: 'GET',
+                        url: '/admin/specialist/get/paginated?page=' + page + '&size=' + size,
+                        contentType: 'json',
+                        success: function (data) {
+                            return data;
+                        }
+                    });
+                }
+
+
+
+                // function for get all specialist table data initial if page is loading
+                function getAllSpecialistTableData(pageNum, pageSize) {
+                    fetchAllSpecialistData(pageNum, pageSize).then(function (response) {
+                        populateSpecialist(response.data.content, pageSize);
+                        $('#totalElements').text(response.data.totalElements)
+                        $('#loader').hide();
+                        $('#content').show();
+                    });
+                }
+
+                function fetchSpecialistSearchData(keyword) {
+                    return $.ajax({
+                        async: true,
+                        type: 'GET',
+                        url: '/admin/specialist/get/keyword=' + keyword,
+                        contentType: 'json',
+                        success: function (data) {
+                            return data;
+                        }
+                    });
+                }
+                function populateSpecialistPagination(currentPage) {
+                    $('#page-link').empty();
+                    fetchAllSpecialistData(currentPage, pageSize).then(function (response) {
+                        $.each(response.data, function (index, item) {
+                            $('#data-container').append('<div>' + item.name + '</div>');
+                        });
+                        var pageLink = '<li class="page-item"><a class="page-link" href="#">' + totalPages + '</a></li>'
+                    });
+
+
+
+                }
+
+                $(document).ready(function () {
+
+                    var currentPage = 0;
+                    var pageSize = 25;
+                    // invoking fuction for get all specialist table data first
+                    getAllSpecialistTableData(currentPage, pageSize);
+
+                    $('#refresh-btn').click(function () {
+                        getAllSpecialistTableData(currentPage, pageSize);
+                    })
+
+                    $('#entries-select').on('click', 'a', function () {
+                        pageSize = parseInt($(this).data('value'));
+                        $('#selected-entries').text(pageSize);
+                        $('#max').text(pageSize);
+                        getAllSpecialistTableData(currentPage, pageSize);
+                    });
+
+
+                    $('#next').on('click', function () {
+                        currentPage++;
+                        fetchAllSpecialistData(currentPage, pageSize).then(function (response) {
+                            populateSpecialist(response.data.content, pageSize);
+                        });
+                    });
+
+
+                    $('#search-specialist').on('keyup', function () {
+                        var keyword = $(this).val();
+                        $('.close').show();
+                        fetchSpecialistSearchData(keyword).then(function (response) {
+                            populateSpecialist(response.data, pageSize);
+                        });
+                    });
+
+                    $('.close').on('click', function () {
+                        $('#search-specialist').val('');
+                        $('.close').hide();
+                        fetchAllSpecialistData(currentPage, pageSize).then(function (response) {
+                            populateSpecialist(response.data.content, pageSize);
+                        });
+                    })
+
+
+
+
+
+
+                    // Add new Specialist
+                    $('input').focus(function () {
+                        $(this).removeClass('border-danger');
+                        var fieldName = $(this).attr('name');
+                        $('#specialist-' + fieldName + 'Error').text('');
+                        $('#specialist-' + fieldName + 'Error').css({ 'background-image': 'none' });
+                    });
+
+                    $("#specialist-form").submit(function (event) {
+                        event.preventDefault();
+                        $('.btn-loader').show();
+                        var formData = {
+                            name: $('#specialist-name').val(),
+                            description: $('#specialist-description').val()
+                        }
+                        $.ajax({
+                            type: 'POST',
+                            url: '/admin/specialist/add',
+                            data: JSON.stringify(formData),
+                            contentType: 'application/json',
+                            success: function (response) {
+                                showToast(response.message, 'bg-success');
+                                $('#specialist-form')[0].reset();
+                                $('#specialistModal').modal('hide');
+                            },
+                            error: function (xhr, status, error) {
+                                if (xhr.status === 400) {
+                                    var errorMessage = xhr.responseJSON;
+                                    var fieldErrors = errorMessage.errors;
+                                    if (fieldErrors !== null) {
+                                        $.each(fieldErrors, function (fieldName, errorMessage) {
+                                            $('#specialist-' + fieldName + 'Error').css({ 'background-image': 'url("/assets/img/error-info.svg")' });
+                                            $('#specialist-' + fieldName + 'Error').text(errorMessage);
+                                            $('#specialist-' + fieldName).addClass('border-danger')
+                                        });
+                                    }
+                                    showToast(errorMessage.message, 'bg-danger');
+                                } else {
+                                    const data = JSON.parse(xhr.responseText);
+                                    showToast(data.message, 'bg-danger');
+                                }
+                            },
+                            complete: function () {
+                                $('.btn-loader').hide();
+                                getAllSpecialistTableData(currentPage, pageSize);
+                            }
+                        });
+                    });
+
+                    // Update specialist
+                    $(document).on('click', '#update-specialist', function () {
+                        var specialistId = $(this).data('id');
+                        $.ajax({
+                            type: 'GET',
+                            url: '/admin/specialist/get/id=' + specialistId,
+                            success: function (response) {
+                                var specialist = response.data;
+                                $('#specialist-update-id').val(specialist.id);
+                                $('#specialist-update-name').val(specialist.name);
+                                $('#specialist-update-description').val(specialist.description);
+                            }
+                        });
+                    });
+
+                    $(document).on('submit', '#update-specialist-form', function (event) {
+                        event.preventDefault();
+                        $('input').focus(function () {
+                            $(this).removeClass('border-danger');
+                            var fieldName = $(this).attr('name');
+                            $('#specialist-update-' + fieldName + 'Error').text('');
+                            $('#specialist-update-' + fieldName + 'Error').css({ 'background-image': 'none' });
+                        });
+                        $('.btn-loader').show();
+                        var specialistId = $('#specialist-update-id').val();
+                        var formData = {
+                            id: $('#specialist-update-id').val(),
+                            name: $('#specialist-update-name').val(),
+                            description: $('#specialist-update-description').val()
+                        }
+                        $.ajax({
+                            type: 'PUT',
+                            url: '/admin/specialist/update/id=' + specialistId + '',
+                            data: JSON.stringify(formData),
+                            contentType: 'application/json',
+                            success: function (response) {
+                                showToast(response.message, 'bg-success');
+                                $('#updateSpecialistModal').modal('hide');
+                            },
+                            error: function (xhr, status, error) {
+                                if (xhr.status === 400) {
+                                    var errorMessage = xhr.responseJSON;
+                                    var fieldErrors = errorMessage.errors;
+                                    if (fieldErrors !== null) {
+                                        $.each(fieldErrors, function (fieldName, errorMessage) {
+                                            $('#specialist-update-' + fieldName + 'Error').css({ 'background-image': 'url("/assets/img/error-info.svg")' });
+                                            $('#specialist-update-' + fieldName + 'Error').text(errorMessage);
+                                            $('#specialist-update-' + fieldName).addClass('border-danger')
+                                        });
+                                    }
+                                    showToast(errorMessage.message, 'bg-danger');
+                                } else {
+                                    const data = JSON.parse(xhr.responseText);
+                                    showToast(data.message, 'bg-danger');
+                                }
+                                $('.btn-loader').hide();
+                            },
+                            complete: function () {
+                                $('.btn-loader').hide();
+                                getAllSpecialistTableData(currentPage, pageSize);
+                            }
+                        });
+                    });
+
+                    // Delete Specialist
+                    $(document).on('click', '#delete-specialist', function () {
+                        var specialistId = $(this).data('id');
+                        $.ajax({
+                            type: 'GET',
+                            url: '/admin/specialist/get/id=' + specialistId,
+                            success: function (response) {
+                                var specialist = response.data;
+                                $('#specialist-delete-id').val(specialist.id);
+                                $('#specialist-delete-name').text(specialist.name);
+                            }
+                        });
+                    });
+
+                    $(document).on('click', '#delete-specialist-btn', function () {
+                        $('.btn-loader').show();
+                        var specialistId = $('#specialist-delete-id').val();
+                        $.ajax({
+                            type: 'DELETE',
+                            url: '/admin/specialist/delete/id=' + specialistId,
+                            success: function (response) {
+                                showToast(response.message, 'bg-success');
+                                $('#deleteSpecialistModal').modal('hide');
+                            },
+                            error: function (xhr, status, error) {
+                                const data = JSON.parse(xhr.responseText);
+                                showToast(data.message, 'bg-danger');
+                            },
+                            complete: function () {
+                                getAllSpecialistTableData(currentPage, pageSize);
+                                $('.btn-loader').hide();
+                            }
+                        });
+                    });
+                });
+            </script>
+        </div>
+
+
+        <!-- Modal For Add New Specialist-->
+        <section>
+            <div class="modal fade" id="specialistModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4>Add Specialization
+                            </h4>
+                            <button type="button" class="btn-close btn-modal" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="login">
+                                <div>
+                                    <form id="specialist-form" action="">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label>Specialization Name<span class="field-required">*</span></label>
+                                                <div class="field">
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        id="specialist-name" name="name"
+                                                        placeholder="Enter specialization name">
+                                                    <span class="error" id="specialist-nameError"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label>Description</label>
+                                                <div class="field">
+                                                    <textarea class="form-control form-control-sm"
+                                                        id="specialist-description" name="description" rows="3"
+                                                        placeholder="Type description here"
+                                                        style="font-weight: 500;"></textarea>
+                                                    <span id="specialist-descriptionError" class="error"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-md-12">
+                                                <button class="btn" type="submit">
+                                                    <span class="btn-loader" style="display: none;"><i
+                                                            class="fa fa-spinner fa-pulse"></i></span>&nbsp;Add
+                                                </button>
+                                                <button class="btn" type="reset">Reset</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal  For Update Specialist-->
+        <section>
+            <div class="modal fade" id="updateSpecialistModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div id="modal-spec" class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <form id="update-specialist-form" action="">
+                            <div class="modal-header">
+                                <h4>Update Specialization</h4>
+                                <button type="button" class="btn-close btn-modal" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="login">
+                                    <div>
+                                        <input type="text" name="id" id="specialist-update-id" disabled hidden>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label>Specialization Name<span class="field-required">*</span></label>
+                                                <div class="field">
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        id="specialist-update-name" name="name"
+                                                        placeholder="Enter specialization name">
+                                                    <span class="error" id="specialist-update-nameError"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label>Description</label>
+                                                <div class="field">
+                                                    <textarea class="form-control form-control-sm"
+                                                        id="specialist-update-description" name="description" rows="3"
+                                                        placeholder="Type description here"
+                                                        style="font-weight: 500;"></textarea>
+                                                    <span id="specialist-update-descriptionError" class="error"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-md-12">
+                                                <button class="btn" type="submit"><span class="btn-loader"
+                                                        style="display: none;"><i
+                                                            class="fa fa-spinner fa-pulse"></i></span>&nbspUpdate</button>
+                                                <button class="btn" type="reset">Reset</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Modal For Delete Specialist-->
+        <section>
+            <div class="modal fade" id="deleteSpecialistModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4>Delete Specialist</h4>
+                            <button type="button" class="btn-close btn-modal" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="text-center">
+                                <div>
+                                    <i class="fa-solid fa-triangle-exclamation text-danger"
+                                        style="font-size: 150px;"></i>
+                                </div>
+                                <h4>&quot;<span id="specialist-delete-name">Cardiologist</span>&quot;</h4>
+                                <span>Are you sure you want to proceed ?</span>
+                                <input type="number" hidden disabled name="id" id="specialist-delete-id">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+                            <button id="delete-specialist-btn" type="button" class="btn bg-danger"><span
+                                    class="btn-loader" style="display: none;"><i
+                                        class="fa fa-spinner fa-pulse"></i></span>&nbsp;Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</body>
+
+</html>

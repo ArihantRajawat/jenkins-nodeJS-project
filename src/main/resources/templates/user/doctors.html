@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{user/base :: layout(~{::title}, ~{:: content})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctors</title>
+</head>
+
+<body>
+    <div th:fragment="content">
+        <div class="page-top">
+            <div class="row">
+                <div class="col align-content-center">
+                    <h2>Meet Our Doctors</h2>
+                </div>
+                <div class="col text-center">
+                    <img width="100%" height="100%" src="/assets/img/doctors.png">
+                </div>
+
+            </div>
+        </div>
+        <div class="container doctor-page">
+            <div class="row">
+                <div class="col-md-4 filter-box">
+                    <h2>Doctor Search By<span style="vertical-align: middle;"></h2>
+                    <div class="mt-4">
+                        <label class="form-label">Specialization</label>
+                        <div class="dropdown ss-select-dropdown">
+                            <button class="dropdown-toggle ss-select-btn" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="true">
+                                <span id="ss-selected-specialization">Select Specialization</span>
+                                <span class="ss-arrow">
+                                    <span class="ss-arrow-down"></span>
+                                </span>
+                            </button>
+                            <ul class="dropdown-menu ss-dropdown-menu">
+                                <div class="ss-search">
+                                    <input id="search-field-1" type="search" class="form-control" placeholder="Search"
+                                        aria-label="Search">
+                                </div>
+                                <div class="ss-search-list" id="ss-specialization">
+                                    <li><a class="dropdown-item selected-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <label class="form-label">Doctor Name</label>
+                        <div class="dropdown ss-select-dropdown">
+                            <button class="dropdown-toggle ss-select-btn" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="true">
+                                <span id="ss-selected-doctor">Select Doctor</span>
+                                <span class="ss-arrow">
+                                    <span class="ss-arrow-down"></span>
+                                </span>
+                            </button>
+                            <ul class="dropdown-menu ss-dropdown-menu">
+                                <div class="ss-search">
+                                    <input id="search-field-2" type="search" class="form-control" placeholder="Search"
+                                        aria-label="Search">
+                                </div>
+                                <div class="ss-search-list" id="ss-doctor">
+                                    <li><a class="dropdown-item selected-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <div class="col-md-8 doctor-detail-box">
+                    <!-- <div class="box">
+                        <div class="row">
+                            <div class="col img">
+                                <img src="/assets/user/img/form-right.png" alt="Doctor Image">
+                            </div>
+                            <div class="col">
+                                <h4>Dr. Dinesh Kumawat</h4>
+                                <p><i class="fa fa-graduation-cap"></i>&nbsp;Department: Cardiologist</p>
+                                <p>Experience: 12+ Years</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button class="btn">View Profile&nbsp;<i class="fa-solid fa-angles-right"></i></button>
+                            <button class="btn">Book Appointment&nbsp;<i class="fa-solid fa-angles-right"></i></button>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <script>
+
+            function populateDoctorList(data) {
+                var box = $('.doctor-detail-box');
+                box.empty();
+                if (Array.isArray(data)) {
+                    $.each(data, function (index, doctor) {
+                        var row = '<div class="box">'
+                            + '<div class="row">'
+                            + '<div class="col-md-3 img">'
+                            + '<a href="/doctors/detail">'
+                            + '<img src="' + doctor.imageUrl + '"alt="Doctor Image">'
+                            + '</a>'
+                            + '</div>'
+                            + '<div class="col-md-9">'
+                            + '<h4 class="mb-2">Dr. ' + doctor.firstname + ' ' + doctor.lastname + '</h4>'
+                            + '<p><i class="fa fa-graduation-cap"></i>&nbsp;Department: ' + doctor.specialization.name + '</p>'
+                            + '<p>Experience: ' + doctor.experience + '+ Years</p>'
+                            + '</div>'
+                            + '</div>'
+                            + '<div class="gap-2">'
+                            + '<button data-id="' + doctor.id + '" class="btn">View Profile&nbsp;<i class="fa-solid fa-angles-right"></i></button>'
+                            + '<button data-id="' + doctor.id + '" class="btn">Book Appointment&nbsp;<i class="fa-solid fa-angles-right"></i></button>'
+                            + '</div>'
+                            + '</div>'
+                        box.append(row);
+                    });
+                } else {
+                    var row = '<div class="box">'
+                        + '<div class="row">'
+                        + '<div class="col-md-3 img">'
+                        + '<a href="/doctors/detail">'
+                        + '<img src="' + data.imageUrl + '"alt="Doctor Image">'
+                        + '</a>'
+                        + '</div>'
+                        + '<div class="col-md-9">'
+                        + '<h4 class="mb-2">Dr. ' + data.firstname + ' ' + data.lastname + '</h4>'
+                        + '<p><i class="fa fa-graduation-cap"></i>&nbsp;Department: ' + data.specialization.name + '</p>'
+                        + '<p>Experience: ' + data.experience + '+ Years</p>'
+                        + '</div>'
+                        + '</div>'
+                        + '<div class="gap-2">'
+                        + '<button data-id="' + data.id + '" class="btn">View Profile&nbsp;<i class="fa-solid fa-angles-right"></i></button>'
+                        + '<button data-id="' + data.id + '" class="btn">Book Appointment&nbsp;<i class="fa-solid fa-angles-right"></i></button>'
+                        + '</div>'
+                        + '</div>'
+                    box.append(row);
+                }
+            }
+
+
+
+            function populateDoctorSelectField(data) {
+                var fieldList = $('#ss-doctor');
+                fieldList.empty();
+                fieldList.append('<li><a class="dropdown-item" href="#" data-value="0">Select Doctor</a></li>');
+                $.each(data, function (key, value) {
+                    fieldList.append('<li><a class="dropdown-item" href="#" data-value="' + value.id + '">Dr. ' + value.firstname + ' ' + value.lastname + '</a></li>');
+                });
+            }
+
+            function fetchDoctorData(url) {
+                return $.ajax({
+                    async: true,
+                    type: 'GET',
+                    url: url,
+                    contentType: 'application/json',
+                    success: function (response) {
+                        return response.data;
+                    }
+                })
+            }
+
+            function getAllDoctors() {
+                var url = '/user/doctors/all';
+                fetchDoctorData(url).then(function (response) {
+                    populateDoctorList(response.data);
+                    populateDoctorSelectField(response.data);
+                });
+            }
+
+            function getDoctorBySpecialization(specializationId) {
+                var url = '/user/doctors/specializationId=' + specializationId;
+                fetchDoctorData(url).then(function (response) {
+                    var doctorData = response.data;
+                    if (doctorData.length === 0) {
+                        $('.doctor-detail-box').empty();
+                        $('.doctor-detail-box').append('<h4>No result found</h4>');
+                    } else {
+                        populateDoctorList(doctorData);
+                        populateDoctorSelectField(doctorData);
+                    }
+
+                });
+            }
+
+            function getDoctorById(doctorId) {
+                var url = '/user/doctors/doctorId=' + doctorId;
+                fetchDoctorData(url).then(function (response) {
+                    var doctorData = response.data;
+                    populateDoctorList(doctorData);
+                });
+            }
+
+            $(document).ready(function () {
+                var specializationId;
+                var doctorId;
+
+                // initially load all doctors data
+                getAllDoctors();
+
+                function getAllSpecialist() {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/user/specialist/get',
+                        contentType: 'json',
+                        success: function (response) {
+                            var specialist = response.data;
+                            var dropdownList = $('#ss-specialization');
+                            dropdownList.empty();
+                            dropdownList.append('<li><a class="dropdown-item" href="#" data-value="0">Select Specialization</a></li>');
+                            $.each(specialist, function (index, item) {
+                                dropdownList.append('<li><a class="dropdown-item" href="#" data-value="' + item.id + '">' + item.name + '</a></li>');
+                            });
+                        }
+                    })
+                }
+                getAllSpecialist();
+
+                // Handle specialist dropdown item click
+                $('#ss-specialization').on('click', 'a', function () {
+                    // $(this).addClass('selected-item');
+                    specializationId = $(this).data('value');
+                    var specializationName = $(this).text();
+                    $('#ss-selected-specialization').text(specializationName);
+                    if (specializationId === 0) {
+                        getAllDoctors();
+                    } else {
+                        getDoctorBySpecialization(specializationId);
+                    }
+                });
+
+                // Handle doctor dropdown item click
+                $('#ss-doctor').on('click', 'a', function () {
+                    doctorId = $(this).data('value');
+                    var doctorName = $(this).text();
+                    $('#ss-selected-doctor').text(doctorName);
+                    if (doctorId === 0) {
+                        if (specializationId === 0) {
+                            getAllDoctors();
+                        } else {
+                            getDoctorBySpecialization(specializationId);
+                        }
+                    } else {
+                        getDoctorById(doctorId);
+                    }
+                });
+
+                $('#search-field-1').keyup(function () {
+                    var keyword = $(this).val();
+                  
+                    $.ajax({
+                        async: true,
+                        type: 'GET',
+                        url: '/user/specialist/get/keyword=' + keyword,
+                        contentType: 'json',
+                        success: function (response) {
+                            var dropdownList = $('#ss-specialization');
+                            dropdownList.empty();
+                            if (response.data.length === 0) {
+                                dropdownList.append('<p>No Results</p>');
+                            }
+                            $.each(response.data, function (key, item) {
+                                dropdownList.append('<li><a class="dropdown-item" href="#" data-value="' + item.id + '">' + item.name + '</a></li>');
+                            })
+                        }
+                    })
+                });
+
+                $('#search-field-2').keyup(function () {
+                    var keyword = $(this).val();
+                    console.log(keyword)
+                    $.ajax({
+                        async: true,
+                        type: 'GET',
+                        url: '/user/doctors/get/keyword=' + keyword,
+                        contentType: 'json',
+                        success: function (response) {
+                            var dropdownList = $('#ss-doctor');
+                            dropdownList.empty();
+                            if (response.data.length === 0) {
+                                dropdownList.append('<p>No Results</p>');
+                            }
+                            $.each(response.data, function (key, item) {
+                                dropdownList.append('<li><a class="dropdown-item" href="#" data-value="' + item.id + '">Dr. ' + item.firstname +' ' + item.lastname + '</a></li>');
+                            })
+                        }
+                    })
+                });
+
+
+
+            });
+        </script>
+    </div>
+</body>
+
+</html>

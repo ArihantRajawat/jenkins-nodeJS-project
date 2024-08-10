@@ -1,0 +1,375 @@
+body {
+    text-decoration: none;
+    padding: 0;
+    margin: 0;
+    color: #646569;
+    font-family: 'Roboto', sans-serif;
+    overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0;
+}
+
+.error {
+    padding: 2px 0 2px 18px;
+    font-size: 12px;
+    color: red;
+    margin: 0;
+    /* background-image: url(/assets/user/img/error-info.svg); */
+    background-repeat: no-repeat;
+}
+
+a:hover {
+    color: #007A64;
+}
+
+.btn {
+    border-radius: 0;
+    border: none;
+    background-color: #007A64;
+    color: #fff;
+    font-weight: 500;
+    padding: 4px 8px;
+    font-size: 14px;
+}
+
+.btn:focus-visible {
+    outline: none;
+    box-shadow: none;
+}
+
+.btn:hover {
+    opacity: 0.9;
+    background-color: #007A64;
+    color: #fff;
+}
+
+.btn-check:checked+.btn,
+.btn.active,
+.btn.show,
+.btn:first-child:active,
+:not(.btn-check)+.btn:active {
+    background: #007A64;
+    color: #fff;
+}
+
+.modal-content {
+    border-radius: 0;
+    border: none;
+}
+
+.modal-header {
+    padding: 10px 12px;
+    text-transform: uppercase;
+}
+
+.modal-footer {
+    padding: 10px 12px;
+}
+
+.btn-modal {
+    border: 1px solid #dddddd;
+    padding: 6px;
+    font-size: 10px;
+    margin-right: 1px !important;
+}
+
+.btn-modal:focus,
+:active,
+:focus-visible,
+:focus-within {
+    box-shadow: none;
+}
+
+.btn-modal:hover {
+    color: #007A64;
+    border-color: #007A64;
+}
+
+.field-required {
+    color: red;
+    padding-left: 2px;
+}
+
+.form-control,
+.form-select {
+    border-radius: 0;
+}
+
+.form-control:focus,
+.form-select:focus {
+    color: var(--bs-body-color);
+    border-color: #007A64;
+    background-color: var(--bs-body-bg);
+    outline: 0;
+    -webkit-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.12);
+    -moz-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.12);
+}
+
+
+/*************************************************/
+/********************* Nav Bar *********************/
+/*************************************************/
+.navbar {
+    z-index: 9;
+    width: 100%;
+    height: 50px;
+    position: fixed;
+    background-color: #fff;
+    -webkit-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.12);
+    -moz-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.12);
+}
+
+
+.page-title {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.table-content {
+    overflow: auto;
+    background-color: #fff;
+    padding: 20px;
+    color: #646569;
+    -webkit-box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.12);
+    -moz-box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.12);
+}
+
+.table>:not(caption)>*>* {
+    color: #646569;
+}
+
+.table-content .thead {
+    background-color: #f8f8f8;
+}
+
+.table-content .table-herder {
+    margin-bottom: 20px;
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+}
+
+.table-content .table-herder .select-entry {
+    display: flex;
+}
+
+
+
+.table-content .table-herder .select-entry label {
+    display: flex;
+    align-items: center;
+}
+
+.table-content .select-entry .dropdown {
+    width: 100px;
+    color: #646569 !important;
+}
+
+.table-content .select-entry .dropdown button {
+    background-color: #fff;
+    width: 100%;
+    border: 1px solid #dddddd;
+    height: 30px;
+    color: #646569;
+    margin-left: 5px;
+}
+
+.dropdown button:focus-visible {
+    box-shadow: none;
+}
+
+.table-content .select-entry .dropdown .dropdown-menu {
+    z-index: 1;
+    border-radius: 0;
+    margin-top: -3px !important;
+    margin-bottom: -3px !important;
+    background-color: #fff;
+    min-width: 100px;
+    padding: 0;
+}
+
+.table-content .select-entry .dropdown .dropdown-toggle.show {
+    border-color: #007A64;
+    -webkit-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.12);
+    -moz-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.12);
+}
+
+.table-content .select-entry .dropdown .dropdown-menu .dropdown-item {
+    padding: 2px 8px;
+    font-size: 15px;
+    color: #646569;
+    height: 30px;
+}
+
+table thead .sorting {
+    background-image: url('/assets/img/sort_both.png');
+    background-repeat: no-repeat;
+    background-position: center right 15px;
+    cursor: pointer;
+}
+
+table thead .sorting-asc {
+    background-image: url('/assets/img/sort_asc.png');
+}
+
+table thead .sorting-desc {
+    background-image: url('/assets/img/sort_desc.png');
+}
+
+table thead th,
+table tbody td {
+    padding: 8px 15px !important;
+}
+
+@media only screen and (max-width: 1400px) {
+
+    table thead th,
+    table thead td {
+        padding: 8px 15px;
+    }
+}
+
+.table-content .select-entry .dropdown .dropdown-menu li:not(:last-child) {
+    border-bottom: 1px solid #dddddd;
+}
+
+.table-content .select-entry .dropdown .dropdown-menu.show {
+    border-color: #007A64;
+    -webkit-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.12);
+    -moz-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.12);
+}
+
+.table-content .select-entry .dropdown .dropdown-menu a:hover {
+    background-color: #007A64;
+    color: #fff;
+}
+
+
+@media screen and (max-width: 760px) {
+    .table-content .table-herder {
+        display: block;
+    }
+
+    .table-content .table-herder .select-entry label {
+        margin-top: 4px;
+    }
+
+    .table-content .table-herder .select-entry select {
+        display: flex;
+        width: 40%;
+    }
+
+    .table-content .table-herder .table-search {
+        margin-top: 10px;
+    }
+}
+
+.table-content .table-footer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.table-content .table-action-btn {
+    border: none;
+    background: none;
+    color: #646569;
+}
+
+.table-content .update:hover {
+    color: blue;
+}
+
+.table-content .delete:hover {
+    color: red;
+}
+
+.doctor-form {
+    border-radius: 0;
+    border: none;
+    -webkit-box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.12);
+    -moz-box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.12);
+}
+
+/*************************************************/
+/******************** Pagination *******************/
+/*************************************************/
+
+.pagination {
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.pagination .page-item .page-link {
+    color: #646569;
+    border-color: #646569;
+    border-radius: 2px;
+    background-color: #fff;
+}
+
+.pagination .page-item .page-link.active {
+    background-color: #007A64;
+    color: #fff;
+    border-color: #007A64;
+}
+
+.pagination .page-item .page-link:focus {
+    box-shadow: none;
+}
+
+.dashboard-info {
+    display: flex;
+}
+
+.dashboard-info .box {
+    padding: 20px;
+    background-color: #646569;
+}
+
+
+
+/*************************************************/
+/***************** Doctor Detail Modal ***************/
+/*************************************************/
+
+.doctor-detail-modal .doctor-detail-box .section-1 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.doctor-detail-modal .doctor-detail-box .section-1 .left-box {
+    display: flex;
+}
+
+.doctor-detail-modal .doctor-detail-box .section-1 .left-box .key-name {
+    min-width: 100px;
+}
+
+.doctor-detail-modal .doctor-detail-box .section-2 {
+    display: flex;
+}
+
+.card {
+    border-radius: 0;
+}
+
+.card .media {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

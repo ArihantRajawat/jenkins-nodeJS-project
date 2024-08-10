@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{user/base :: layout(~{::title}, ~{:: content})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page not found</title>
+</head>
+
+<body>
+    <div th:fragment="content">
+        <style>
+            .page-not-found {
+                padding: 50px 0;
+                background-repeat: no-repeat;
+            }
+
+            .left-box {
+                padding: 40px 30px;
+            }
+
+            .page-not-found button {
+                border: none;
+                border-radius: 4px;
+                padding: 5px 10px;
+                color: #fff;
+                background-color: #00984a;
+                font-weight: 500;
+            }
+
+            .page-not-found button:hover {
+                opacity: 0.9;
+            }
+        </style>
+        <div class="container page-not-found">
+            <div class="row">
+                <div class="col-md-6 left-box">
+                    <h1>404 - Page not found !</h1>
+                    <p>The page you are looking for cannot be found.</p>
+                    <a href="/"><button>Home Page</button></a>
+                </div>
+                <div class="col-md-6">
+                    <img width="90%" height="90%" src="/assets/img/404.png" alt="404 image">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

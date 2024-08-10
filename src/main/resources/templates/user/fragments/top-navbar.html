@@ -1,0 +1,65 @@
+<nav class="top-navbar">
+    <div class="call-action">
+        <a href="tel:0148-2855859"><i class="fa-solid fa-phone-volume"></i>Helpline - 0148-2855859</a>&nbsp;|&nbsp;
+        <a href="tel:0148-2855859"><i class="fa-solid fa-truck-medical"></i>Emergency - 0148-2855859</a>
+    </div>
+    <div class="right-action">
+        <a href="/book-appointment"><button class="btn"><i class="fa-solid fa-user-doctor"></i>Book
+                Appointment</button></a>
+        <button id="login-btn" class="btn d-none" data-bs-toggle="modal" data-bs-target="#loginModel"><i
+                class="fa-solid fa-user"></i>Login/Register</button>
+        <button id="account-btn" class="btn dropdown dropdown-toggle d-none" type="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <i class="fa-solid fa-user"></i></i>Account
+        </button>
+        <div class="dropdown">
+            <ul class="dropdown-menu" style="min-width: 60%;">
+                <div style="text-align: center;">
+                    <p class="title" id="uname"></p>
+                </div>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="/change-password"><i class="fa-solid fa-lock"></i>Change Password</a>
+                </li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a id="logout" class="dropdown-item" href="#"><i
+                            class="fa-solid fa-right-from-bracket"></i>Logout</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            loginUser();
+
+            $("#logout").click(function () {
+                $.ajax({
+                    method: 'GET',
+                    url: '/logoutProcess',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('jwtToken')
+                    },
+                    success: function (response) {
+                        showToast(response, 'bg-success');
+                        window.location.href = '/home';
+                        localStorage.clear();
+                        sessionStorage.clear();
+                    },
+                    error: function (xhr) {
+                        showToast(response, 'bg-danger');
+                    },
+                    complete: function () {
+                        loginUser();
+                    }
+                });
+            });
+        });
+    </script>
+</nav>

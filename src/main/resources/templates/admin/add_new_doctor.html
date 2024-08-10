@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{admin/base :: layout(~{::title}, ~{:: content})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add new Doctor</title>
+</head>
+
+<body>
+    <div th:fragment="content">
+        <div class="container">
+            <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                <ol class="breadcrumb pt-2">
+                    <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="#">Doctor</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">New Add</li>
+                </ol>
+            </nav>
+            <div class="page-title">
+                <div>
+                    <h3>Doctor</h3>
+                </div>
+                <div>
+                    <button class="btn">Back</button>
+                    <button class="btn" data-bs-toggle="modal" data-bs-target="#specialistModal">Add Specialist</button>
+                </div>
+            </div>
+
+            <div class="card doctor-form">
+                <h5 class="card-header">Doctor Add Form</h5>
+                <div class="card-body">
+                    <form id="doctor-add-form" action="" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Firstname<span class="field-required">*</span></label>
+                                <input type="text" name="firstname" id="doctor-firstname"
+                                    class="form-control form-control-sm" placeholder="Enter your firstname">
+                                <span id="doctor-firstnameError" class="error"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Lastname<span class="field-required">*</span></label>
+                                <input type="text" name="lastname" id="doctor-lastname"
+                                    class="form-control form-control-sm" placeholder="Enter your lastname">
+                                <span id="doctor-lastnameError" class="error"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Phone Number<span class="field-required">*</span></label>
+                                <div class="field">
+                                    <div class="input-group input-group-sm">
+                                        <span class="input-group-text" id="inputGroup-sizing-sm" style="margin-bottom: 1px;
+                                            z-index: 9;
+                                            border: none;
+                                            border-right: 1px solid #dddddd;
+                                            font-weight: 500;
+                                            margin-top: 1px;
+                                            position: relative;">+91</span>
+                                        <input name="phone" id="doctor-phone" type="text" maxlength="10"
+                                            class="form-control" aria-label="Sizing example input"
+                                            aria-describedby="inputGroup-sizing-sm"
+                                            placeholder="Enter your 10-Digit number" style="position: absolute;
+                                                width: 100%;
+                                                padding-left: 50px;">
+                                    </div>
+                                    <span id="doctor-phoneError" class="error"></span>
+                                </div>
+                                <script>
+                                    $(document).ready(function () {
+                                        $('#doctor-phone').on('input', function () {
+                                            let phoneNumber = $(this).val();
+                                            let sanitizedInput = phoneNumber.replace(/\D/g, '');
+                                            $(this).val(sanitizedInput);
+                                        })
+                                    });
+                                </script>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Email<span class="field-required">*</span></label>
+                                <input type="email" name="email" id="doctor-email" class="form-control form-control-sm"
+                                    placeholder="Enter your email">
+                                <span id="doctor-emailError" class="error"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="col-md-12">
+                                    <label>Specialization<span class="field-required">*</span></label>
+                                    <select class="form-select form-select-sm" name="specializationId"
+                                        id="doctor-specializationId" aria-label=".form-select-sm example"
+                                        style="font-weight: 500;">
+                                        <option id="selectedSpec" value="" selected>Select a Specialization
+                                        </option>
+                                    </select>
+                                    <span id="doctor-specializationIdError" class="error"></span>
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Licence No.<span class="field-required">*</span></label>
+                                    <input type="text" name="licenceNo" id="doctor-licenceNo"
+                                        class="form-control form-control-sm" placeholder="Enter licence number">
+                                    <span id="doctor-licenceNoError" class="error"></span>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label>Year of Experience<span class="field-required">*</span></label>
+                                            <input type="text" name="experience" id="doctor-experience"
+                                                class="form-control form-control-sm"
+                                                placeholder="Total experience year">
+                                            <span id="doctor-experienceError" class="error"></span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Consultation Fee<span class="field-required">*</span></label>
+                                            <input type="text" name="consultationFee" id="doctor-consultationFee"
+                                                class="form-control form-control-sm" placeholder="Consultation fee">
+                                            <span id="doctor-consultationFeeError" class="error"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Qualification<span class="field-required">*</span></label>
+                                    <input type="text" class="form-control form-control-sm" name="qualification"
+                                        id="doctor-qualification" placeholder="Enter qualification">
+                                    <span id="doctor-qualificationError" class="error"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12">
+                                    <label>Profile Image<span class="field-required">*</span></label>
+                                    <input id="doctor-image" type="file" name="image" accept="image/*"
+                                        class="form-control form-control-sm">
+                                    <span id="doctor-imageError" class="error"></span>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="card" style="border-radius: 0;">
+                                        <div class="card-body" style="padding: 8px;">
+                                            <div class="d-flex justify-content-center"
+                                                style="border: 1px dashed #dddddd; border-radius: 4px;height: 181px;max-height: 181px; align-items: center;">
+                                                <p id="emptyImg">Upload Profile Image</p>
+                                                <img id="imgPreview" width="181px" height="181px"
+                                                    style="max-width: 181px;max-height: 181px;padding: 2px;object-fit: contain; display: none;"
+                                                    src="#" alt="pic">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>About<span class="field-required">*</span></label>
+                                <textarea class="form-control form-control-sm" id="doctor-about" name="about" rows="5"
+                                    placeholder="Type about yourself" style="font-weight: 500;"></textarea>
+                                <span id="doctor-aboutError" class="error"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Password<span class="field-required">*</span></label>
+                                <input type="password" name="password" id="doctor-password"
+                                    class="form-control form-control-sm" placeholder="Enter your password">
+                                <span id="doctor-passwordError" class="error"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Confirm Password<span class="field-required">*</span></label>
+                                <input type="password" name="confirmPassword" id="doctor-confirmPassword"
+                                    class="form-control form-control-sm" placeholder="Enter your confirm password">
+                                <span id="doctor-confirmPasswordError" class="error"></span>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn mt-3"><span class="btn-loader" style="display: none;"><i
+                                    class="fa fa-spinner fa-pulse"></i></span>&nbsp;Submit</button>
+                        <button type="reset" class="btn mt-3">Reset</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                $('#loader').hide();
+                $('#doctor-image').on('change', function (event) {
+                    var input = event.target;
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $('#imgPreview').attr('src', e.target.result);
+                            $('#imgPreview').show();
+                            $('#emptyImg').hide();
+                        }
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                });
+
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/admin/specialist/get',
+                    contentType: 'application/json',
+                    success: function (response) {
+                        var specialist = response.data;
+                        $.each(specialist, function (index, item) {
+                            $('#doctor-specializationId').append('<option value="' + item.id + '">' + item.name + '</option>');
+                        });
+                    }
+                });
+
+                $('input, select').focus(function () {
+                    $(this).removeClass('border-danger');
+                    var fieldName = $(this).attr('name');
+                    $('#doctor-' + fieldName + 'Error').text('');
+                    $('#doctor-' + fieldName + 'Error').css({ 'background-image': 'none' });
+                });
+
+
+
+                $(document).on('submit', '#doctor-add-form', function (event) {
+                    event.preventDefault();
+                    const formData = new FormData(this);
+                    $.ajax({
+                        async: true,
+                        type: 'POST',
+                        url: '/admin/doctor/add/save',
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        beforeSend: function () {
+                            $('.btn-loader').show();
+                        },
+                        success: function (response) {
+                            showToast(response.message, 'bg-success');
+                            $('#doctor-add-form')[0].reset();
+                        },
+                        error(xhr, status, error) {
+                            if (xhr.status === 400) {
+                                var errorMessage = xhr.responseJSON;
+                                var fieldErrors = errorMessage.errors;
+                                if (fieldErrors !== null) {
+                                    $.each(fieldErrors, function (fieldName, errorMessage) {
+                                        $('#doctor-' + fieldName + 'Error').css({ 'background-image': 'url("/assets/img/error-info.svg")' });
+                                        $('#doctor-' + fieldName + 'Error').text(errorMessage);
+                                        $('#doctor-' + fieldName).addClass('border-danger')
+                                    });
+                                }
+                                showToast(errorMessage.message, 'bg-danger');
+                            } else {
+                                const data = JSON.parse(xhr.responseText);
+                                showToast(data.message, 'bg-danger');
+                            }
+                        },
+                        complete: function () {
+                            $('.btn-loader').hide();
+                        }
+                    })
+                });
+            });
+        </script>
+    </div>
+</body>
+
+</html>

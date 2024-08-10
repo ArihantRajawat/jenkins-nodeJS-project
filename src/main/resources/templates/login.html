@@ -1,0 +1,126 @@
+<!-- Modal -->
+<section>
+    <div class="modal fade" id="loginModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="btn-close btn-modal" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                    <div class="login">
+                        <div class=".modal-form-content" style="padding: 0;margin: 15px; border: none;">
+                            <h4 style="border-bottom: 2px solid #ff811a;display: inline-block;">Login to our site
+                            </h4>
+                            <p>Don't have an account? <a href="/register">Signup</a></p>
+                            <form id="login-form" action="">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label>Email or Username<span class="field-required">*</span></label>
+                                        <div class="field">
+                                            <input type="email" class="form-control form-control-sm" id="login-username"
+                                                name="username" placeholder="Enter your email address">
+                                            <span id="login-usernameError" class="error"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="field">
+                                            <label>Password<span class="field-required">*</span></label>
+                                            <div class="input-group" id="show_hide_password1">
+                                                <input style="border-radius: 4px;padding-right: 41px;"
+                                                    class="form-control form-control-sm" type="password"
+                                                    placeholder="Enter your password" name="password"
+                                                    id="login-password">
+                                                <div class="input-group-addon">
+                                                    <a href="" style="padding: 8px; font-size: smaller;"><i
+                                                            class="fa fa-eye-slash" aria-hidden="true"
+                                                            style="color: #202c45;"></i></a>
+                                                </div>
+                                            </div>
+                                            <span id="login-passwordError" class="error"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-12">
+                                        <button class="btn" style="width: 100%;padding: 12px 0;">Signin</button>
+                                    </div>
+                                </div>
+                                <a class="float-end mt-2" href="/forgot-password"><i
+                                        class="fa-solid fa-user-check"></i>&nbsp;Forgot
+                                    your password?</a>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+
+                $('input').focus(function () {
+                    $(this).removeClass('border-danger');
+                    var fieldName = $(this).attr('name');
+                    $('#login-' + fieldName + 'Error').text('');
+                    $('#login-' + fieldName + 'Error').css({ 'background-image': 'none' });
+                });
+
+                $('#login-form').submit(function (event) {
+                    event.preventDefault();
+                    var formData = {
+                        username: $('#login-username').val().trim(),
+                        password: $('#login-password').val().trim()
+                    }
+                    $.ajax({
+                        type: 'POST',
+                        url: '/authenticate',
+                        data: JSON.stringify(formData),
+                        contentType: 'application/json',
+                        success: function (response) {
+                            showToast(response.message, 'bg-success');
+                            localStorage.setItem('jwtToken', response.token);
+                            localStorage.setItem('userDetails', response.userDetails);
+                            $('#login-form')[0].reset();
+                            $('#loginModel').modal('hide');
+                        },
+                        error: function (xhr, status, error) {
+                            if (xhr.status === 400) {
+                                var errorMessage = xhr.responseJSON;
+                                var fieldErrors = errorMessage.errors;
+                                if (fieldErrors !== null) {
+                                    $.each(fieldErrors, function (fieldName, errorMessage) {
+                                        $('#login-' + fieldName + 'Error').css({ 'background-image': 'url("/assets/img/error-info.svg")' });
+                                        $('#login-' + fieldName + 'Error').text(errorMessage);
+                                        $('#login-' + fieldName).addClass('border-danger');
+                                    });
+                                }
+                                showToast(errorMessage.message, 'bg-danger');
+                            } else {
+                                const data = JSON.parse(xhr.responseText);
+                                showToast(data.message, 'bg-danger');
+                            }
+                        },
+                        complete: function () {
+                            loginUser();
+                        }
+                    });
+                });
+
+                $("#show_hide_password1 a").on('click', function (event) {
+                    event.preventDefault();
+                    if ($('#show_hide_password1 input').attr("type") == "text") {
+                        $('#show_hide_password1 input').attr('type', 'password');
+                        $('#show_hide_password1 i').addClass("fa-eye-slash");
+                        $('#show_hide_password1 i').removeClass("fa-eye");
+                    } else if ($('#show_hide_password1 input').attr("type") == "password") {
+                        $('#show_hide_password1 input').attr('type', 'text');
+                        $('#show_hide_password1 i').removeClass("fa-eye-slash");
+                        $('#show_hide_password1 i').addClass("fa-eye");
+                    }
+                });
+            });
+        </script>
+    </div>
+</section>

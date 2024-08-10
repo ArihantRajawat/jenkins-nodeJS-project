@@ -1,0 +1,27 @@
+.toast {
+    border-radius: 4px;
+    z-index: 9999;
+}
+
+.toast-container {
+    position: fixed;
+    padding: 35px;
+    bottom: 0;
+    left: 0;
+}
+
+@media screen and (max-width: 700px) {
+    .toast-container {
+        clear: left;
+    }
+}
+
+.toast button {
+    font-size: 9px;
+    border: 1px solid;
+    padding: 5px;
+}
+
+.toast button:focus {
+    box-shadow: none;
+}

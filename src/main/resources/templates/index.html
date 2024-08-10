@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{user/base :: layout(~{::title}, ~{:: content})}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+
+<body>
+    <div th:fragment="content">
+        <!--    Main carousel start-->
+        <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active" data-bs-interval="10000">
+                    <img src="/assets/img/carousel-1.webp" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                    </div>
+                </div>
+                <div class="carousel-item" data-bs-interval="2000">
+                    <img src="/assets/img/carousel-2.webp" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="/assets/img/carousel-3.webp" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <!--    Main carousel end-->
+
+        <!--        Quick link panel start-->
+        <div class="quick-link-panel">
+            <div class="container text-center">
+                <div class="row gap-3">
+                    <div class="col quick-link">
+                        <a href="/doctors" style="text-decoration: none;">
+                            <div class="find-doctors">
+                                <i class="fa-solid fa-user-nurse"></i>
+                                <h1>Find a Doctor</h1>
+                                <p>Choose by name, specialty and more.</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col quick-link">
+                        <a href="#" style="text-decoration: none;">
+                            <div class="health-check-plans">
+                                <i class="fa-solid fa-heart-pulse"></i>
+                                <h1>Health Check up Plans</h1>
+                                <p>Personalized and Affordable Health Packages.</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col quick-link">
+                        <a href="/book-appointment" style="text-decoration: none;">
+                            <div class="book-appointment">
+                                <i class="fa-solid fa-calendar-check"></i>
+                                <h1>Book Appointment</h1>
+                                <p>Schedule your visit online.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--        Quick link panel end-->
+
+        <!--News featured start-->
+        <div class="container mb-5">
+            <div class="row news-featured">
+
+                <div class="col-lg-6" style="padding: 0px;">
+                    <img height="100%" width="100%" src="/assets/img/hospital.jpeg">
+                </div>
+                <div class="col-12 col-lg-6 news-featured-content">
+                    <h1 class="news-title">Why Choose Our Hospital?</h1>
+                    <p class="mt-4">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tenetur repellat aperiam
+                        laboriosam soluta
+                        quae voluptatum magnam reprehenderit voluptas architecto! Adipisci numquam enim non maiores
+                        nihil
+                        dolore a perferendis, quos sunt? Adipisci numquam enim non maiores nihil
+                        dolore a perferendis, quos sunt?</p>
+                    <a href="#">Read more</a>
+                </div>
+            </div>
+        </div>
+        <!--News featured end-->
+
+        <!--        Core specialities start-->
+        <div class="core-specialities">
+            <div class="container">
+                <div class="title">
+                    <h1>Our Core Specialities</h1>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-3">
+                        <div class="specialist">
+                            <img src="/assets/img/cardiac.png">
+                            <h2>Cardiac Sciences</h2>
+                            <a href="#">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="specialist">
+                            <img src="/assets/img/renal.png">
+                            <h2>Renal Sciences</h2>
+                            <a href="#">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="specialist">
+                            <img src="/assets/img/orthopaedics.png">
+                            <h2>Orthopaedics & Joint Replacement</h2>
+                            <a href="#">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="specialist">
+                            <img src="/assets/img/critical.png">
+                            <h2>Critical Care Medicine</h2>
+                            <a href="#">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="specialist">
+                            <img src="/assets/img/neurosciences.png">
+                            <h2>Neurosciences</h2>
+                            <a href="#">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="specialist">
+                            <img src="/assets/img/gastro.png">
+                            <h2>Gastro-Science</h2>
+                            <a href="#">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="specialist">
+                            <img src="/assets/img/obstetrics.png">
+                            <h2>Obstetrics and Gynaecology</h2>
+                            <a href="#">Learn More</a>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="specialist">
+                            <img src="/assets/img/robotic.png">
+                            <h2>Robotic Surgery</h2>
+                            <a href="#">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--        Core specialities end-->
+
+        <!--        Core doctors start-->
+        <div class="core-doctor">
+            <div>
+                <div class="title">
+                    <h1>Our Expert Doctors Team</h1>
+                </div>
+                <div class="row">
+                    <div class="wrapper">
+                        <div class="doctor-carousel">
+
+
+                        </div>
+                    </div>
+
+                    <script>
+                        function populateSliderDoctor(data) {
+                            $('.doctor-carousel').empty();
+                            $.each(data, function (index, doctor) {
+                                var row = '<div class="container">'
+                                    + '<div class="row">'
+                                    + '<div class="doctor-box">'
+                                    + '<div class="img" >'
+                                    + '<a href="/doctors/detail">'
+                                    + '<img src="' + doctor.imageUrl + '"alt="Doctor Image">'
+                                    + '</a>'
+                                    + '</div>'
+                                    + '<div class="text">'
+                                    + '<h4>Dr. ' + doctor.firstname + ' ' + doctor.lastname + '</h4>'
+                                    + '<p>Department: ' + doctor.specialization.name + '</p>'
+                                    + '<p>Experience: ' + doctor.experience + '+ Years</p>'
+                                    + '</div>'
+                                    + '<div class="action">'
+                                    + '<button class="btn"><i class="fa-solid fa-user-doctor"></i>&nbsp;Book an Appointment</button>'
+                                    + '</div>'
+                                    + '</div>'
+                                    + '</div>'
+                                    + '</div>'
+                                $('.doctor-carousel').slick('slickAdd', row);
+                            });
+                        }
+
+
+                        $(document).ready(function () {
+
+                            $('.doctor-carousel').slick({
+                                dots: true,
+                                centerMode: false,
+                                infinite: true,
+                                autoplay: true,
+                                autoplaySpeed: 2000,
+                                slidesToShow: 4, // default
+                                slidesToScroll: 1,
+                                responsive: [
+                                    {
+                                        breakpoint: 1200, // large laptop
+                                        settings: {
+                                            slidesToShow: 3,
+                                            slidesToScroll: 1
+                                        }
+                                    },
+                                    {
+                                        breakpoint: 992, // small laptop
+                                        settings: {
+                                            slidesToShow: 2,
+                                            slidesToScroll: 1
+                                        }
+                                    },
+                                    {
+                                        breakpoint: 768, // tablets
+                                        settings: {
+                                            slidesToShow: 2,
+                                            slidesToScroll: 1
+                                        }
+                                    },
+                                    {
+                                        breakpoint: 576, // mobiles
+                                        settings: {
+                                            slidesToShow: 1,
+                                            slidesToScroll: 1
+                                        }
+                                    }
+                                ]
+                            });
+
+                            function getSliderDoctors() {
+                                $.ajax({
+                                    async: true,
+                                    type: 'GET',
+                                    url: '/user/doctors/all',
+                                    contentType: 'application/json',
+                                    success: function (response) {
+                                        var doctors = response.data;
+                                        populateSliderDoctor(doctors);
+                                    }
+                                })
+                            }
+                            getSliderDoctors();
+
+                        });
+
+                    </script>
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+        <!--        Core doctors end-->
+
+
+
+    </div>
+
+</body>
+
+</html>
